@@ -13,14 +13,18 @@ public class Employee {
     private Integer empId;
     private String name;
     private String address;
+    private PaymentClassification classification;
+    private PaymentSchedule schedule;
+    private PaymentMethod method;
+    private UnionAffiliation unionAffiliation;
 
     public PaymentClassification getClassification() {
         return classification;
     }
 
-    private PaymentClassification classification;
-    private PaymentSchedule schedule;
-    private PaymentMethod method;
+    public UnionAffiliation getUnionAffiliation() {
+        return unionAffiliation;
+    }
 
     public Employee(Integer empId, String name, String address, PaymentClassification classification, PaymentSchedule schedule, PaymentMethod method) {
         this.empId = empId;
