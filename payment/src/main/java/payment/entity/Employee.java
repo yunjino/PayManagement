@@ -13,6 +13,11 @@ public class Employee {
     private Integer empId;
     private String name;
     private String address;
+
+    public PaymentClassification getClassification() {
+        return classification;
+    }
+
     private PaymentClassification classification;
     private PaymentSchedule schedule;
     private PaymentMethod method;
@@ -25,4 +30,6 @@ public class Employee {
         this.schedule = schedule;
         this.method = method;
     }
+
+
 }

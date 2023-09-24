@@ -1,5 +1,5 @@
 package payment;
 
 public interface Transaction {
-    void execute();
+    void execute() throws Exception;
 }

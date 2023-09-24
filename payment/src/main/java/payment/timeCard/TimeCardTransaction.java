@@ -1,0 +1,38 @@
+package payment.timeCard;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import payment.Transaction;
+import payment.classification.HourlyClassification;
+import payment.classification.PaymentClassification;
+import payment.entity.Employee;
+import payment.entity.TimeCard;
+import payment.repository.EmployeeRepository;
+
+public class TimeCardTransaction implements Transaction {
+    private final Integer empId;
+    private final long date;
+    private final double hours;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    public TimeCardTransaction(Integer empId, long date, double hours) {
+        this.empId = empId;
+        this.date = date;
+        this.hours = hours;
+    }
+
+    @Override
+    public void execute() throws Exception {
+        Employee employee = employeeRepository.findOne(empId);
+        if (employee != null) {
+            PaymentClassification paymentClassification = employee.getClassification();
+            if (paymentClassification instanceof HourlyClassification hourlyClassification) {
+                hourlyClassification.addTimeCard(new TimeCard(date, hours));
+            } else {
+                throw new Exception("Tried to add timecard to non-hourly employee");
+            }
+        } else {
+            throw new Exception("No such employee");
+        }
+    }
+}
