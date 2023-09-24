@@ -1,10 +1,12 @@
 package payment.addEmployee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import payment.Transaction;
 import payment.entity.Employee;
 import payment.repository.EmployeeRepository;
 
+@Service
 public abstract class AddEmployeeTransaction implements Transaction {
     private final Integer empId;
     private final String name;
