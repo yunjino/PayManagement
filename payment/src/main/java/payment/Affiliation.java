@@ -1,4 +1,4 @@
-package payment.serviceCharge;
+package payment;
 
 import payment.entity.ServiceCharge;
 

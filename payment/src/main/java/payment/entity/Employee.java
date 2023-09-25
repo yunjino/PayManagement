@@ -3,7 +3,7 @@ package payment.entity;
 import payment.classification.PaymentClassification;
 import payment.method.PaymentMethod;
 import payment.schedule.PaymentSchedule;
-import payment.serviceCharge.Affiliation;
+import payment.Affiliation;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

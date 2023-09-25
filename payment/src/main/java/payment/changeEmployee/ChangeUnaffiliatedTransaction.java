@@ -1,8 +1,8 @@
 package payment.changeEmployee;
 
 import payment.entity.Employee;
-import payment.serviceCharge.Affiliation;
-import payment.serviceCharge.NoAffiliation;
+import payment.Affiliation;
+import payment.entity.NoAffiliation;
 
 public class ChangeUnaffiliatedTransaction extends ChangeAffiliationTransaction {
     public ChangeUnaffiliatedTransaction(Integer empId) {

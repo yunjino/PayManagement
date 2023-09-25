@@ -1,19 +1,19 @@
 package payment.entity;
 
-import payment.serviceCharge.Affiliation;
+import payment.Affiliation;
 
 import javax.persistence.Entity;
 import java.util.Collection;
 
 @Entity
 public class UnionAffiliation implements Affiliation {
-    private final long date;
-    private final double charge;
+    private Integer memberId;
+    private double dues;
     private Collection<ServiceCharge> serviceCharges;
 
-    public UnionAffiliation(long date, double charge) {
-        this.date = date;
-        this.charge = charge;
+    public UnionAffiliation(Integer memberId, double dues) {
+        this.memberId = memberId;
+        this.dues = dues;
     }
 
     @Override

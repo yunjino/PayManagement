@@ -1,6 +1,6 @@
-package payment.serviceCharge;
+package payment.entity;
 
-import payment.entity.ServiceCharge;
+import payment.Affiliation;
 
 public class NoAffiliation implements Affiliation {
     @Override
