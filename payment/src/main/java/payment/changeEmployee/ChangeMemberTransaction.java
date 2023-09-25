@@ -2,6 +2,7 @@ package payment.changeEmployee;
 
 import payment.entity.Employee;
 import payment.entity.UnionAffiliation;
+import payment.serviceCharge.Affiliation;
 
 public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
     private final Integer memberId;
@@ -19,7 +20,7 @@ public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
     }
 
     @Override
-    UnionAffiliation getAffiliation() {
+    Affiliation getAffiliation() {
         return new UnionAffiliation(memberId, dues);
     }
 }

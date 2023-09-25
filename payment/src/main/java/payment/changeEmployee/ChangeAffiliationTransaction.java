@@ -1,7 +1,7 @@
 package payment.changeEmployee;
 
 import payment.entity.Employee;
-import payment.entity.UnionAffiliation;
+import payment.serviceCharge.Affiliation;
 
 public abstract class ChangeAffiliationTransaction extends ChangeEmployeeTransaction {
     public ChangeAffiliationTransaction(Integer empId) {
@@ -16,5 +16,5 @@ public abstract class ChangeAffiliationTransaction extends ChangeEmployeeTransac
 
     abstract void recordMemberShip(Employee e);
 
-    abstract UnionAffiliation getAffiliation();
+    abstract Affiliation getAffiliation();
 }
