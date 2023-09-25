@@ -16,6 +16,7 @@ public class Employee {
     private PaymentClassification classification;
     private PaymentSchedule schedule;
     private PaymentMethod method;
+
     private UnionAffiliation unionAffiliation;
 
     public PaymentClassification getClassification() {
@@ -49,5 +50,9 @@ public class Employee {
 
     public void setSchedule(PaymentSchedule schedule) {
         this.schedule = schedule;
+    }
+
+    public void setUnionAffiliation(UnionAffiliation unionAffiliation) {
+        this.unionAffiliation = unionAffiliation;
     }
 }
