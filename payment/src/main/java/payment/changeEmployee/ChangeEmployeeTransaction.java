@@ -5,12 +5,12 @@ import payment.Transaction;
 import payment.entity.Employee;
 import payment.repository.EmployeeRepository;
 
-public abstract class changeEmployeeTransaction implements Transaction {
+public abstract class ChangeEmployeeTransaction implements Transaction {
     private final Integer empId;
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public changeEmployeeTransaction(Integer empId) {
+    public ChangeEmployeeTransaction(Integer empId) {
         this.empId = empId;
     }
 

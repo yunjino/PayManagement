@@ -2,10 +2,10 @@ package payment.changeEmployee;
 
 import payment.entity.Employee;
 
-public class changeNameTransaction extends changeEmployeeTransaction {
+public class ChangeNameTransaction extends ChangeEmployeeTransaction {
     private final String name;
 
-    public changeNameTransaction(Integer empId, String name) {
+    public ChangeNameTransaction(Integer empId, String name) {
         super(empId);
         this.name = name;
     }
