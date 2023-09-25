@@ -3,7 +3,7 @@ package payment.changeEmployee;
 import payment.entity.Employee;
 import payment.entity.UnionAffiliation;
 
-public class ChangeMemberTransaction extends ChangeAffilationTransaction {
+public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
     private final Integer memberId;
     private final double dues;
 

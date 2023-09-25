@@ -29,7 +29,7 @@ public class ServiceChargeTransaction implements Transaction {
         Employee employee = Optional.ofNullable(employeeRepository.findOne(memberId))
                 .orElseThrow(() -> new Exception(("Not found employee")));
 
-        UnionAffiliation unionAffiliation = employee.getUnionAffiliation();
-        unionAffiliation.addServiceCharge(new ServiceCharge(date, charge));
+        UnionAffiliation affiliation = (UnionAffiliation) employee.getAffiliation();
+        affiliation.addServiceChange(new ServiceCharge(date, charge));
     }
 }

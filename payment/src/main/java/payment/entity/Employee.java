@@ -3,6 +3,7 @@ package payment.entity;
 import payment.classification.PaymentClassification;
 import payment.method.PaymentMethod;
 import payment.schedule.PaymentSchedule;
+import payment.serviceCharge.Affiliation;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,14 +18,14 @@ public class Employee {
     private PaymentSchedule schedule;
     private PaymentMethod method;
 
-    private UnionAffiliation unionAffiliation;
+    private Affiliation affiliation;
 
     public PaymentClassification getClassification() {
         return classification;
     }
 
-    public UnionAffiliation getUnionAffiliation() {
-        return unionAffiliation;
+    public Affiliation getAffiliation() {
+        return affiliation;
     }
 
     public Employee(Integer empId, String name, String address, PaymentClassification classification, PaymentSchedule schedule, PaymentMethod method) {
@@ -52,7 +53,7 @@ public class Employee {
         this.schedule = schedule;
     }
 
-    public void setUnionAffiliation(UnionAffiliation unionAffiliation) {
-        this.unionAffiliation = unionAffiliation;
+    public void setAffiliation(Affiliation affiliation) {
+        this.affiliation = affiliation;
     }
 }
