@@ -24,7 +24,7 @@ public class SalesReceiptTransaction implements Transaction {
         if (employee != null) {
             PaymentClassification paymentClassification = employee.getClassification();
             if (paymentClassification instanceof CommissionedClassification commissionedClassification) {
-                commissionedClassification.addSalesReceipt(new SalesReceipt(date, amount));
+                commissionedClassification.addSalesReceipt(SalesReceipt.builder().date(date).amount(amount).build());
             } else {
                 throw new Exception("Tried to add salesReceipt to non-commissioned employee");
             }

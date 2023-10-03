@@ -24,7 +24,7 @@ public class TimeCardTransaction implements Transaction {
         if (employee != null) {
             PaymentClassification paymentClassification = employee.getClassification();
             if (paymentClassification instanceof HourlyClassification hourlyClassification) {
-                hourlyClassification.addTimeCard(new TimeCard(date, hours));
+                hourlyClassification.addTimeCard(TimeCard.builder().hours(hours).date(date).build());
             } else {
                 throw new Exception("Tried to add timecard to non-hourly employee");
             }

@@ -1,18 +1,16 @@
 package payment.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
+@Data
+@Getter
+@Setter
+@Builder
 public class ServiceCharge {
-    @Id
-    private Long id;
     private Long date;
     private double amount;
-
-    public ServiceCharge(Long date, double amount) {
-        this.date = date;
-        this.amount = amount;
-    }
 }
 

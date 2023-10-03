@@ -26,6 +26,6 @@ public class ServiceChargeTransaction implements Transaction {
             .orElseThrow(() -> new Exception(("Not found employee")));
 
         UnionAffiliation affiliation = (UnionAffiliation) employee.getAffiliation();
-        affiliation.addServiceChange(new ServiceCharge(date, charge));
+        affiliation.addServiceChange(ServiceCharge.builder().date(date).amount(charge).build());
     }
 }

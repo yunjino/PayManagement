@@ -1,20 +1,21 @@
 package payment.entity;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import payment.Affiliation;
 
-import javax.persistence.Entity;
 import java.util.Collection;
 
-@Entity
+@Data
+@Getter
+@Setter
+@Builder
 public class UnionAffiliation implements Affiliation {
     private Integer memberId;
     private double dues;
     private Collection<ServiceCharge> serviceCharges;
-
-    public UnionAffiliation(Integer memberId, double dues) {
-        this.memberId = memberId;
-        this.dues = dues;
-    }
 
     @Override
     public void addServiceChange(ServiceCharge serviceCharge) {

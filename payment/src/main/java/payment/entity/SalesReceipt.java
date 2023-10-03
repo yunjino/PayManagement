@@ -1,18 +1,15 @@
 package payment.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
+@Data
+@Getter
+@Setter
+@Builder
 public class SalesReceipt {
-    @Id
-    private Long id;
-
-    public SalesReceipt(Long date, double amount) {
-        this.date = date;
-        this.amount = amount;
-    }
-
     private Long date;
     private double amount;
 }
