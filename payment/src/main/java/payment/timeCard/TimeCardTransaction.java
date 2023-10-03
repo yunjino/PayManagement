@@ -2,18 +2,16 @@ package payment.timeCard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import payment.Transaction;
+import payment.PayrollDatabase;
 import payment.classification.HourlyClassification;
 import payment.classification.PaymentClassification;
 import payment.entity.Employee;
 import payment.entity.TimeCard;
-import payment.repository.EmployeeRepository;
 
 public class TimeCardTransaction implements Transaction {
     private final Integer empId;
     private final long date;
     private final double hours;
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     public TimeCardTransaction(Integer empId, long date, double hours) {
         this.empId = empId;
@@ -23,7 +21,7 @@ public class TimeCardTransaction implements Transaction {
 
     @Override
     public void execute() throws Exception {
-        Employee employee = employeeRepository.findOne(empId);
+        Employee employee = PayrollDatabase.getEmployee(empId);
         if (employee != null) {
             PaymentClassification paymentClassification = employee.getClassification();
             if (paymentClassification instanceof HourlyClassification hourlyClassification) {

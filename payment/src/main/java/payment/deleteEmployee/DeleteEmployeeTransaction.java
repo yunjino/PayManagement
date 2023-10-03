@@ -3,14 +3,11 @@ package payment.deleteEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import payment.Transaction;
-import payment.repository.EmployeeRepository;
+import payment.PayrollDatabase;
 
 @Service
 public class DeleteEmployeeTransaction implements Transaction {
     private final Integer empId;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     public DeleteEmployeeTransaction(Integer empId) {
         this.empId = empId;
@@ -18,6 +15,6 @@ public class DeleteEmployeeTransaction implements Transaction {
 
     @Override
     public void execute() {
-        employeeRepository.delete(empId);
+        PayrollDatabase.deleteEmployee(empId);
     }
 }
