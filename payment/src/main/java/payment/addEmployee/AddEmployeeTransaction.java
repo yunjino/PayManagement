@@ -1,9 +1,7 @@
 package payment.addEmployee;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import payment.PaymentDatabase;
 import payment.Transaction;
-import payment.PayrollDatabase;
 import payment.classification.PaymentClassification;
 import payment.entity.Employee;
 import payment.method.HoldMethod;
@@ -27,7 +25,7 @@ public abstract class AddEmployeeTransaction implements Transaction {
         PaymentSchedule paymentSchedule = getSchedule();
         PaymentMethod paymentMethod = new HoldMethod();
         Employee employee = new Employee(empId, name, address, paymentClassification, paymentSchedule, paymentMethod);
-        PayrollDatabase.addEmployee(empId, employee);
+        PaymentDatabase.addEmployee(empId, employee);
     }
 
     abstract PaymentClassification getClassification();
