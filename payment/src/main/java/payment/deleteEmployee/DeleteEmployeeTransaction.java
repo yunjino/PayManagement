@@ -1,11 +1,8 @@
 package payment.deleteEmployee;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import payment.Transaction;
-import payment.PayrollDatabase;
+import payment.PaymentDatabase;
 
-@Service
 public class DeleteEmployeeTransaction implements Transaction {
     private final Integer empId;
 
@@ -15,6 +12,6 @@ public class DeleteEmployeeTransaction implements Transaction {
 
     @Override
     public void execute() {
-        PayrollDatabase.deleteEmployee(empId);
+        PaymentDatabase.deleteEmployee(empId);
     }
 }

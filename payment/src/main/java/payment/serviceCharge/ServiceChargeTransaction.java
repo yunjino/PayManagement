@@ -1,8 +1,7 @@
 package payment.serviceCharge;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import payment.Transaction;
-import payment.PayrollDatabase;
+import payment.PaymentDatabase;
 import payment.entity.Employee;
 import payment.entity.ServiceCharge;
 import payment.entity.UnionAffiliation;
@@ -23,7 +22,7 @@ public class ServiceChargeTransaction implements Transaction {
 
     @Override
     public void execute() throws Exception {
-        Employee employee = Optional.ofNullable(PayrollDatabase.getEmployee(empId))
+        Employee employee = Optional.ofNullable(PaymentDatabase.getEmployee(memberId))
             .orElseThrow(() -> new Exception(("Not found employee")));
 
         UnionAffiliation affiliation = (UnionAffiliation) employee.getAffiliation();

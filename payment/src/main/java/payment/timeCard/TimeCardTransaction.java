@@ -1,8 +1,7 @@
 package payment.timeCard;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import payment.Transaction;
-import payment.PayrollDatabase;
+import payment.PaymentDatabase;
 import payment.classification.HourlyClassification;
 import payment.classification.PaymentClassification;
 import payment.entity.Employee;
@@ -19,10 +18,9 @@ public class TimeCardTransaction implements Transaction {
         this.hours = hours;
     }
 
-
     @Override
     public void execute() throws Exception {
-        Employee employee = PayrollDatabase.getEmployee(empId);
+        Employee employee = PaymentDatabase.getEmployee(empId);
         if (employee != null) {
             PaymentClassification paymentClassification = employee.getClassification();
             if (paymentClassification instanceof HourlyClassification hourlyClassification) {

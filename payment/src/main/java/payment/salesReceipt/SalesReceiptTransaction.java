@@ -1,8 +1,7 @@
 package payment.salesReceipt;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import payment.Transaction;
-import payment.PayrollDatabase;
+import payment.PaymentDatabase;
 import payment.classification.CommissionedClassification;
 import payment.classification.PaymentClassification;
 import payment.entity.Employee;
@@ -21,7 +20,7 @@ public class SalesReceiptTransaction implements Transaction {
 
     @Override
     public void execute() throws Exception {
-        Employee employee = PayrollDatabase.getEmployee(empId);
+        Employee employee = PaymentDatabase.getEmployee(empId);
         if (employee != null) {
             PaymentClassification paymentClassification = employee.getClassification();
             if (paymentClassification instanceof CommissionedClassification commissionedClassification) {

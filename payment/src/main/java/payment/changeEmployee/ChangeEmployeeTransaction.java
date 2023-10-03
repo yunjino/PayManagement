@@ -1,8 +1,7 @@
 package payment.changeEmployee;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import payment.Transaction;
-import payment.PayrollDatabase;
+import payment.PaymentDatabase;
 import payment.entity.Employee;
 
 public abstract class ChangeEmployeeTransaction implements Transaction {
@@ -14,7 +13,7 @@ public abstract class ChangeEmployeeTransaction implements Transaction {
 
     @Override
     public void execute() throws Exception {
-        Employee employee = PayrollDatabase.getEmployee(empId);
+        Employee employee = PaymentDatabase.getEmployee(empId);
         change(employee);
     }
 

@@ -5,7 +5,7 @@ import payment.entity.Employee;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PayrollDatabase {
+public class PaymentDatabase {
     private static Map<Integer, Employee> itsEmployee = new HashMap<>();
 
     public PayrollDatabase() {
