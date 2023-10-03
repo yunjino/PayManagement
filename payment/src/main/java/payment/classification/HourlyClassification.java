@@ -12,4 +12,8 @@ public class HourlyClassification extends PaymentClassification {
     public void addTimeCard(TimeCard timeCard) {
 
     }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
 }

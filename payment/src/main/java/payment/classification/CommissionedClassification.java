@@ -14,4 +14,12 @@ public class CommissionedClassification extends PaymentClassification {
     public void addSalesReceipt(SalesReceipt salesReceipt) {
 
     }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public double getCommissionRate() {
+        return commissionRate;
+    }
 }
