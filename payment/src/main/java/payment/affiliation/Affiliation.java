@@ -1,7 +1,9 @@
 package payment.affiliation;
 
+import payment.entity.Paycheck;
 import payment.entity.ServiceCharge;
 
-public abstract class Affiliation {
-    public abstract void addServiceChange(ServiceCharge serviceCharge);
+public interface Affiliation {
+    void addServiceChange(ServiceCharge serviceCharge);
+    double calculateDeductions(Paycheck paycheck);
 }

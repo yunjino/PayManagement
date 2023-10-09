@@ -17,10 +17,13 @@ import payment.method.DirectMethod;
 import payment.method.HoldMethod;
 import payment.method.MailMethod;
 import payment.method.PaymentMethod;
+import payment.payday.PaydayTransaction;
 import payment.salesReceipt.SalesReceiptTransaction;
 import payment.schedule.*;
 import payment.serviceCharge.ServiceChargeTransaction;
 import payment.timeCard.TimeCardTransaction;
+
+import java.util.Calendar;
 
 public class PaymentDatabaseTest {
 
@@ -335,6 +338,38 @@ public class PaymentDatabaseTest {
         changeUnaffiliatedTransaction.execute();
 
         Assertions.assertEquals(employee, PaymentDatabase.getUnion(memberId));
+    }
 
+    @Test
+    public void TestPaySingleSalariedEmployee() {
+        int empId = 1;
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        addSalariedEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 30);
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payCalendar.getTime());
+        paydayTransaction.execute();
+
+        Paycheck payCheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertEquals(payCalendar.getTime(), payCheck.getPayDate());
+        Assertions.assertEquals(1000.00, payCheck.getCrossPay(), .001);
+        Assertions.assertEquals("Hold", payCheck.getField().get("Disposition"));
+        Assertions.assertEquals(0.0, payCheck.getDeductions(), .001);
+        Assertions.assertEquals(1000.00, payCheck.getNetPay(), .001);
+    }
+
+    @Test
+    public void TestPaySingleSalariedEmployeeOnWrongDate() {
+        int empId = 1;
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        addSalariedEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 29);
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payCalendar.getTime());
+        paydayTransaction.execute();
+
+        Paycheck payCheck = paydayTransaction.getPayCheck(empId);
     }
 }

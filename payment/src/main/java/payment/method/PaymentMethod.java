@@ -1,4 +1,7 @@
 package payment.method;
 
-public abstract class PaymentMethod {
+import payment.entity.Paycheck;
+
+public interface PaymentMethod {
+    void pay(Paycheck paycheck);
 }

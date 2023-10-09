@@ -9,6 +9,8 @@ import payment.method.PaymentMethod;
 import payment.schedule.PaymentSchedule;
 import payment.affiliation.Affiliation;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -29,5 +31,22 @@ public class Employee {
         this.classification = paymentClassification;
         this.schedule = paymentSchedule;
         this.method = paymentMethod;
+    }
+
+    public boolean isPayDate(Date date) {
+        // TODO
+        return true;
+    }
+
+    public void payday(Paycheck payCheck) {
+        double grossPay = classification.calculatePay(payCheck);
+        double deductions = affiliation.calculateDeductions(payCheck);
+        double netPay = grossPay - deductions;
+
+        payCheck.setCrossPay(grossPay);
+        payCheck.setDeductions(deductions);
+        payCheck.setNetPay(netPay);
+
+        method.pay(payCheck);
     }
 }
