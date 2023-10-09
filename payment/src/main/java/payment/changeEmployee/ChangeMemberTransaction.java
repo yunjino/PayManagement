@@ -21,6 +21,6 @@ public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
 
     @Override
     Affiliation getAffiliation() {
-        return new UnionAffiliation(memberId, dues);
+        return new UnionAffiliation(dues, memberId);
     }
 }

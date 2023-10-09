@@ -9,13 +9,12 @@ import payment.classification.HourlyClassification;
 import payment.classification.PaymentClassification;
 import payment.classification.SalariedClassification;
 import payment.deleteEmployee.DeleteEmployeeTransaction;
-import payment.entity.Employee;
-import payment.entity.SalesReceipt;
-import payment.entity.TimeCard;
+import payment.entity.*;
 import payment.method.HoldMethod;
 import payment.method.PaymentMethod;
 import payment.salesReceipt.SalesReceiptTransaction;
 import payment.schedule.*;
+import payment.serviceCharge.ServiceChargeTransaction;
 import payment.timeCard.TimeCardTransaction;
 
 public class PaymentDatabaseTest {
@@ -134,5 +133,24 @@ public class PaymentDatabaseTest {
 
         SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(20011031);
         Assertions.assertEquals(30000.0, salesReceipt.getAmount());
+    }
+
+    @Test
+    public void TestAddServiceCharge() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "BIll", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+        UnionAffiliation unionAffiliation = new UnionAffiliation(12.5);
+        employee.setAffiliation(unionAffiliation);
+
+        int memberId = 86;
+        PaymentDatabase.addUnionMember(memberId, employee);
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, 20011101, 12095);
+        serviceChargeTransaction.execute();
+
+        ServiceCharge serviceCharge = unionAffiliation.getServiceCharge(20011101);
+        Assertions.assertEquals(12.95, serviceCharge.getAmount(), .001);
     }
 }

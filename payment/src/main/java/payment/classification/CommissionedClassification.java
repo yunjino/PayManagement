@@ -2,9 +2,12 @@ package payment.classification;
 
 import payment.entity.SalesReceipt;
 
+import java.util.Collection;
+
 public class CommissionedClassification extends PaymentClassification {
     private final double salary;
     private final double commissionRate;
+    private Collection<SalesReceipt> salesReceipts;
 
     public CommissionedClassification(double salary, double commissionRate) {
         this.salary = salary;
@@ -12,7 +15,7 @@ public class CommissionedClassification extends PaymentClassification {
     }
 
     public void addSalesReceipt(SalesReceipt salesReceipt) {
-
+        salesReceipts.add(salesReceipt);
     }
 
     public double getSalary() {

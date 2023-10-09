@@ -9,15 +9,14 @@ import payment.entity.UnionAffiliation;
 import java.util.Optional;
 
 public class ServiceChargeTransaction implements Transaction {
-
-    private final Long date;
-    private final double charge;
     private final Integer memberId;
+    private final long date;
+    private final double charge;
 
-    public ServiceChargeTransaction(Long date, double charge, Integer memberId) {
+    public ServiceChargeTransaction(Integer memberId, long date, double charge) {
+        this.memberId = memberId;
         this.date = date;
         this.charge = charge;
-        this.memberId = memberId;
     }
 
     @Override

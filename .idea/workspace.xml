@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b751f63-8df6-4f88-82b7-169201166da3" name="Changes" comment="time card">
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/classification/CommissionedClassification.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/classification/CommissionedClassification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/entity/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/entity/SalesReceipt.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/entity/SalesReceipt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/entity/ServiceCharge.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/entity/ServiceCharge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/entity/TimeCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/entity/TimeCard.java" afterDir="false" />
+    <list default="true" id="5b751f63-8df6-4f88-82b7-169201166da3" name="Changes" comment="- receipt test code&#10;- data annotation 삭제">
+      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/PaymentDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/PaymentDatabase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/changeEmployee/ChangeMemberTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/changeEmployee/ChangeMemberTransaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/entity/UnionAffiliation.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/entity/UnionAffiliation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/salesReceipt/SalesReceiptTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/salesReceipt/SalesReceiptTransaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment/src/main/java/payment/serviceCharge/ServiceChargeTransaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/main/java/payment/serviceCharge/ServiceChargeTransaction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/payment/src/test/java/PaymentDatabaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment/src/test/java/PaymentDatabaseTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -176,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696823274437</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="- receipt test code&#10;- data annotation 삭제">
+      <created>1696824150532</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1696824150532</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,6 +201,7 @@
     <MESSAGE value="test code 작성" />
     <MESSAGE value="test" />
     <MESSAGE value="time card" />
-    <option name="LAST_COMMIT_MESSAGE" value="time card" />
+    <MESSAGE value="- receipt test code&#10;- data annotation 삭제" />
+    <option name="LAST_COMMIT_MESSAGE" value="- receipt test code&#10;- data annotation 삭제" />
   </component>
 </project>
