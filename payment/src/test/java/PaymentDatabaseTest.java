@@ -10,9 +10,11 @@ import payment.classification.PaymentClassification;
 import payment.classification.SalariedClassification;
 import payment.deleteEmployee.DeleteEmployeeTransaction;
 import payment.entity.Employee;
+import payment.entity.TimeCard;
 import payment.method.HoldMethod;
 import payment.method.PaymentMethod;
 import payment.schedule.*;
+import payment.timeCard.TimeCardTransaction;
 
 public class PaymentDatabaseTest {
 
@@ -95,5 +97,23 @@ public class PaymentDatabaseTest {
         deleteEmployeeTransaction.execute();
 
         Assertions.assertEquals(0, PaymentDatabase.isExist(empId));
+    }
+
+    @Test
+    public void TestTimeCardTransaction() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, 20011031, 8.0);
+        timeCardTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        PaymentClassification paymentClassification = employee.getClassification();
+        HourlyClassification hourlyClassification = (HourlyClassification) paymentClassification;
+
+        TimeCard timeCard = hourlyClassification.getTimeCard(20011031);
+        Assertions.assertEquals(8.0, timeCard.getHours());
     }
 }

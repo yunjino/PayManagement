@@ -13,6 +13,10 @@ public class HourlyClassification extends PaymentClassification {
 
     }
 
+    public TimeCard getTimeCard(long date) {
+        return TimeCard.builder().build();
+    }
+
     public double getHourlyRate() {
         return hourlyRate;
     }
