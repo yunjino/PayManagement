@@ -1,18 +1,18 @@
 package payment.entity;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import payment.classification.PaymentClassification;
 import payment.method.PaymentMethod;
 import payment.schedule.PaymentSchedule;
 import payment.Affiliation;
 
-@Data
 @Getter
 @Setter
 @Builder
+@RequiredArgsConstructor
 public class Employee {
     private Integer empId;
     private String name;
@@ -21,4 +21,13 @@ public class Employee {
     private PaymentSchedule schedule;
     private PaymentMethod method;
     private Affiliation affiliation;
+
+    public Employee(Integer empId, String name, String address, PaymentClassification paymentClassification, PaymentSchedule paymentSchedule, PaymentMethod paymentMethod) {
+        this.empId = empId;
+        this.name = name;
+        this.address = address;
+        this.classification = paymentClassification;
+        this.schedule = paymentSchedule;
+        this.method = paymentMethod;
+    }
 }

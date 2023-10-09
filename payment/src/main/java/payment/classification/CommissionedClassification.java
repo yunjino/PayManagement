@@ -22,4 +22,9 @@ public class CommissionedClassification extends PaymentClassification {
     public double getCommissionRate() {
         return commissionRate;
     }
+
+    public SalesReceipt getSalesReceipt(long date) {
+        return SalesReceipt.builder().build();
+    }
+
 }

@@ -1,14 +1,12 @@
 package payment.entity;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import payment.Affiliation;
 
 import java.util.Collection;
 
-@Data
 @Getter
 @Setter
 @Builder

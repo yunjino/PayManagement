@@ -12,7 +12,7 @@ public class SalesReceiptTransaction implements Transaction {
     private final double amount;
     private final Integer empId;
 
-    public SalesReceiptTransaction(Long date, double amount, Integer empId) {
+    public SalesReceiptTransaction(long date, double amount, Integer empId) {
         this.date = date;
         this.amount = amount;
         this.empId = empId;

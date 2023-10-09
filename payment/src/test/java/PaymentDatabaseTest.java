@@ -10,9 +10,11 @@ import payment.classification.PaymentClassification;
 import payment.classification.SalariedClassification;
 import payment.deleteEmployee.DeleteEmployeeTransaction;
 import payment.entity.Employee;
+import payment.entity.SalesReceipt;
 import payment.entity.TimeCard;
 import payment.method.HoldMethod;
 import payment.method.PaymentMethod;
+import payment.salesReceipt.SalesReceiptTransaction;
 import payment.schedule.*;
 import payment.timeCard.TimeCardTransaction;
 
@@ -115,5 +117,22 @@ public class PaymentDatabaseTest {
 
         TimeCard timeCard = hourlyClassification.getTimeCard(20011031);
         Assertions.assertEquals(8.0, timeCard.getHours());
+    }
+
+    @Test
+    public void TestSalesReceiptTransaction() throws Exception {
+        int empId = 1;
+        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(empId, "Jack", "dd", 1000.00, 500.00);
+        addCommissionedEmployee.execute();
+
+        SalesReceiptTransaction salesReceiptTransaction = new SalesReceiptTransaction(20011031, 30000.0, empId);
+        salesReceiptTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+        PaymentClassification paymentClassification = employee.getClassification();
+        CommissionedClassification commissionedClassification = (CommissionedClassification) paymentClassification;
+
+        SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(20011031);
+        Assertions.assertEquals(30000.0, salesReceipt.getAmount());
     }
 }
