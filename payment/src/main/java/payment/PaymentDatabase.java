@@ -8,7 +8,8 @@ import java.util.Map;
 public class PaymentDatabase {
     private static Map<Integer, Employee> itsEmployee = new HashMap<>();
 
-    public PayrollDatabase() {
+    public static boolean isExist(int empId) {
+        return itsEmployee.containsKey(empId);
     }
 
     public static Employee getEmployee(int empId) {

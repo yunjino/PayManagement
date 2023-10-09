@@ -8,6 +8,7 @@ import payment.classification.CommissionedClassification;
 import payment.classification.HourlyClassification;
 import payment.classification.PaymentClassification;
 import payment.classification.SalariedClassification;
+import payment.deleteEmployee.DeleteEmployeeTransaction;
 import payment.entity.Employee;
 import payment.method.HoldMethod;
 import payment.method.PaymentMethod;
@@ -80,7 +81,19 @@ public class PaymentDatabaseTest {
         PaymentMethod paymentMethod = employee.getMethod();
         HoldMethod holdMethod = (HoldMethod) paymentMethod;
         Assertions.assertEquals(paymentMethod, holdMethod);
+    }
 
+    @Test
+    public void testDeleteEmployee() {
+        int empId = 3;
+        AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(empId, "Jack", "dd", 1000.00, 500.00);
+        addCommissionedEmployee.execute();
+        Employee employee = PaymentDatabase.getEmployee(empId);
+        Assertions.assertEquals("Jack", employee.getName());
 
+        DeleteEmployeeTransaction deleteEmployeeTransaction = new DeleteEmployeeTransaction(empId);
+        deleteEmployeeTransaction.execute();
+
+        Assertions.assertEquals(0, PaymentDatabase.isExist(empId));
     }
 }
