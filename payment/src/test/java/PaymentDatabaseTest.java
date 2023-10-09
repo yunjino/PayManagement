@@ -4,6 +4,8 @@ import payment.PaymentDatabase;
 import payment.addEmployee.AddCommissionedEmployee;
 import payment.addEmployee.AddHourlyEmployee;
 import payment.addEmployee.AddSalariedEmployee;
+import payment.changeEmployee.ChangeAddressTransaction;
+import payment.changeEmployee.ChangeNameTransaction;
 import payment.classification.CommissionedClassification;
 import payment.classification.HourlyClassification;
 import payment.classification.PaymentClassification;
@@ -152,5 +154,33 @@ public class PaymentDatabaseTest {
 
         ServiceCharge serviceCharge = unionAffiliation.getServiceCharge(20011101);
         Assertions.assertEquals(12.95, serviceCharge.getAmount(), .001);
+    }
+
+    @Test
+    public void TestChangeNameTransaction() {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeNameTransaction changeNameTransaction = new ChangeNameTransaction(empId, "Bob");
+        changeNameTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        Assertions.assertEquals("Bob", employee.getName());
+    }
+
+    @Test
+    public void TestChangeAddressTransaction() {
+        int empId = 3;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeAddressTransaction changeAddressTransaction = new ChangeAddressTransaction(empId, "Home22");
+        changeAddressTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        Assertions.assertEquals("Home22", employee.getAddress());
     }
 }

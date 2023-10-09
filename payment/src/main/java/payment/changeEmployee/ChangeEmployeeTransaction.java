@@ -12,7 +12,7 @@ public abstract class ChangeEmployeeTransaction implements Transaction {
     }
 
     @Override
-    public void execute() throws Exception {
+    public void execute() {
         Employee employee = PaymentDatabase.getEmployee(empId);
         change(employee);
     }
