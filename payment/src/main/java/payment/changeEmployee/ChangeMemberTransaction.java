@@ -1,8 +1,9 @@
 package payment.changeEmployee;
 
+import payment.PaymentDatabase;
 import payment.entity.Employee;
-import payment.entity.UnionAffiliation;
-import payment.Affiliation;
+import payment.affiliation.UnionAffiliation;
+import payment.affiliation.Affiliation;
 
 public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
     private final Integer memberId;
@@ -17,6 +18,7 @@ public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
     @Override
     void recordMemberShip(Employee e) {
         // 저장
+        PaymentDatabase.addUnionMember(memberId, e);
     }
 
     @Override

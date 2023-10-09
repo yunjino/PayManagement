@@ -1,7 +1,7 @@
 package payment.changeEmployee;
 
 import payment.entity.Employee;
-import payment.Affiliation;
+import payment.affiliation.Affiliation;
 
 public abstract class ChangeAffiliationTransaction extends ChangeEmployeeTransaction {
     public ChangeAffiliationTransaction(Integer empId) {

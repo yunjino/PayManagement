@@ -1,8 +1,10 @@
 package payment.changeEmployee;
 
+import payment.PaymentDatabase;
+import payment.affiliation.UnionAffiliation;
 import payment.entity.Employee;
-import payment.Affiliation;
-import payment.entity.NoAffiliation;
+import payment.affiliation.Affiliation;
+import payment.affiliation.NoAffiliation;
 
 public class ChangeUnaffiliatedTransaction extends ChangeAffiliationTransaction {
     public ChangeUnaffiliatedTransaction(Integer empId) {
@@ -12,7 +14,11 @@ public class ChangeUnaffiliatedTransaction extends ChangeAffiliationTransaction 
     @Override
     void recordMemberShip(Employee e) {
         Affiliation affiliation = e.getAffiliation();
-        // remove
+        if(affiliation instanceof UnionAffiliation) {
+            UnionAffiliation unionAffiliation = (UnionAffiliation) affiliation;
+            int memberId = unionAffiliation.getMemberId();
+            PaymentDatabase.removeUnionMember(memberId);
+        }
     }
 
     @Override

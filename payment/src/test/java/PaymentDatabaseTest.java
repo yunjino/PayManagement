@@ -4,6 +4,8 @@ import payment.PaymentDatabase;
 import payment.addEmployee.AddCommissionedEmployee;
 import payment.addEmployee.AddHourlyEmployee;
 import payment.addEmployee.AddSalariedEmployee;
+import payment.affiliation.Affiliation;
+import payment.affiliation.UnionAffiliation;
 import payment.changeEmployee.*;
 import payment.classification.CommissionedClassification;
 import payment.classification.HourlyClassification;
@@ -295,5 +297,44 @@ public class PaymentDatabaseTest {
 
         PaymentMethod paymentMethod = employee.getMethod();
         Assertions.assertInstanceOf(HoldMethod.class, paymentMethod);
+    }
+
+    @Test
+    public void TestChangeMemberTransaction() {
+        int empId = 2;
+        int memberId = 7734;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeMemberTransaction changeMemberTransaction = new ChangeMemberTransaction(empId, memberId, 99.42);
+        changeMemberTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+        Affiliation affiliation = employee.getAffiliation();
+        Assertions.assertInstanceOf(UnionAffiliation.class, affiliation);
+        UnionAffiliation unionAffiliation = (UnionAffiliation) affiliation;
+        Assertions.assertEquals(99.42, unionAffiliation.getDues(), .001);
+
+        Employee member = PaymentDatabase.getUnion(memberId);
+        Assertions.assertEquals(employee, member);
+    }
+
+    @Test
+    public void TestChangeUnaffiliatedTransaction() {
+        int empId = 2;
+        int memberId = 7734;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeMemberTransaction changeMemberTransaction = new ChangeMemberTransaction(empId, memberId, 99.42);
+        changeMemberTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        ChangeUnaffiliatedTransaction changeUnaffiliatedTransaction = new ChangeUnaffiliatedTransaction(empId);
+        changeUnaffiliatedTransaction.execute();
+
+        Assertions.assertEquals(employee, PaymentDatabase.getUnion(memberId));
+
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 import payment.classification.PaymentClassification;
 import payment.method.PaymentMethod;
 import payment.schedule.PaymentSchedule;
-import payment.Affiliation;
+import payment.affiliation.Affiliation;
 
 @Getter
 @Setter

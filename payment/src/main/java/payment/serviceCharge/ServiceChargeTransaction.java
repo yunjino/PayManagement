@@ -4,7 +4,7 @@ import payment.Transaction;
 import payment.PaymentDatabase;
 import payment.entity.Employee;
 import payment.entity.ServiceCharge;
-import payment.entity.UnionAffiliation;
+import payment.affiliation.UnionAffiliation;
 
 import java.util.Optional;
 

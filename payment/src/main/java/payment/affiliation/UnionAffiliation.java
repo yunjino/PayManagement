@@ -1,16 +1,16 @@
-package payment.entity;
+package payment.affiliation;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import payment.Affiliation;
+import payment.entity.ServiceCharge;
 
 import java.util.Collection;
 
 @Getter
 @Setter
 @Builder
-public class UnionAffiliation implements Affiliation {
+public class UnionAffiliation extends Affiliation {
     private double dues;
     private Integer memberId;
     private Collection<ServiceCharge> serviceCharges;

@@ -1,6 +1,5 @@
 package payment.addEmployee;
 
-import payment.Affiliation;
 import payment.PaymentDatabase;
 import payment.Transaction;
 import payment.classification.PaymentClassification;
