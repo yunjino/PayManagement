@@ -11,7 +11,9 @@ import payment.classification.PaymentClassification;
 import payment.classification.SalariedClassification;
 import payment.deleteEmployee.DeleteEmployeeTransaction;
 import payment.entity.*;
+import payment.method.DirectMethod;
 import payment.method.HoldMethod;
+import payment.method.MailMethod;
 import payment.method.PaymentMethod;
 import payment.salesReceipt.SalesReceiptTransaction;
 import payment.schedule.*;
@@ -216,12 +218,12 @@ public class PaymentDatabaseTest {
         Employee employee = PaymentDatabase.getEmployee(empId);
 
         PaymentClassification paymentClassification = employee.getClassification();
-        Assertions.assertInstanceOf(SalariedClassification.class, paymentClassification.getClass());
+        Assertions.assertInstanceOf(SalariedClassification.class, paymentClassification);
         SalariedClassification salariedClassification = (SalariedClassification) paymentClassification;
         Assertions.assertEquals(1000.00, salariedClassification.getSalary(), .001);
 
         PaymentSchedule paymentSchedule = employee.getSchedule();
-        Assertions.assertInstanceOf(MonthlySchedule.class, paymentSchedule.getClass());
+        Assertions.assertInstanceOf(MonthlySchedule.class, paymentSchedule);
     }
 
     @Test
@@ -236,12 +238,62 @@ public class PaymentDatabaseTest {
         Employee employee = PaymentDatabase.getEmployee(empId);
 
         PaymentClassification paymentClassification = employee.getClassification();
-        Assertions.assertInstanceOf(CommissionedClassification.class, paymentClassification.getClass());
+        Assertions.assertInstanceOf(CommissionedClassification.class, paymentClassification);
         CommissionedClassification commissionedClassification = (CommissionedClassification) paymentClassification;
         Assertions.assertEquals(1000.00, commissionedClassification.getSalary(), .001);
         Assertions.assertEquals(500.00, commissionedClassification.getCommissionRate(), .001);
 
         PaymentSchedule paymentSchedule = employee.getSchedule();
-        Assertions.assertInstanceOf(BiweeklySchedule.class, paymentSchedule.getClass());
+        Assertions.assertInstanceOf(BiweeklySchedule.class, paymentSchedule);
+    }
+
+    @Test
+    public void TestChangeDirectTransaction() {
+        int empId = 3;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeDirectTransaction changeDirectTransaction = new ChangeDirectTransaction(empId, "bank", "Account");
+        changeDirectTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        PaymentMethod paymentMethod = employee.getMethod();
+        Assertions.assertInstanceOf(DirectMethod.class, paymentMethod);
+        DirectMethod directMethod = (DirectMethod) paymentMethod;
+        Assertions.assertEquals("bank", directMethod.getBank());
+        Assertions.assertEquals("Account", directMethod.getAccount());
+    }
+
+    @Test
+    public void TestChangeMailTransaction() {
+        int empId = 3;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeMailTransaction changeMailTransaction = new ChangeMailTransaction(empId, "Home22");
+        changeMailTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        PaymentMethod paymentMethod = employee.getMethod();
+        Assertions.assertInstanceOf(MailMethod.class, paymentMethod);
+        MailMethod mailMethod = (MailMethod) paymentMethod;
+        Assertions.assertEquals("Home22", mailMethod.getAddress());
+    }
+
+    @Test
+    public void TestChangeHoldTransaction() {
+        int empId = 3;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        ChangeHoldTransaction changeHoldTransaction = new ChangeHoldTransaction(empId);
+        changeHoldTransaction.execute();
+
+        Employee employee = PaymentDatabase.getEmployee(empId);
+
+        PaymentMethod paymentMethod = employee.getMethod();
+        Assertions.assertInstanceOf(HoldMethod.class, paymentMethod);
     }
 }
