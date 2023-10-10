@@ -1,4 +1,10 @@
 package payment.schedule;
 
-public class WeeklySchedule extends PaymentSchedule {
+import java.util.Date;
+
+public class WeeklySchedule implements PaymentSchedule {
+    @Override
+    public boolean isPayDay(Date date) {
+        return false;
+    }
 }

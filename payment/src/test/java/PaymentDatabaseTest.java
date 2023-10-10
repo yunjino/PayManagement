@@ -371,5 +371,6 @@ public class PaymentDatabaseTest {
         paydayTransaction.execute();
 
         Paycheck payCheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertNull(payCheck);
     }
 }

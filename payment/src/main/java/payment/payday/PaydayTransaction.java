@@ -20,7 +20,7 @@ public class PaydayTransaction implements Transaction {
         List<Integer> empIds = PaymentDatabase.getAllEmployeeIds();
         for (Integer empId : empIds) {
             Employee employee = PaymentDatabase.getEmployee(empId);
-            if (employee.isPayDate(date)) {
+            if (employee.isPayDay(date)) {
                 Paycheck payCheck = new Paycheck(date);
                 PaymentDatabase.addPaycheck(empId, payCheck);
                 employee.payday(payCheck);

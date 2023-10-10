@@ -33,9 +33,8 @@ public class Employee {
         this.method = paymentMethod;
     }
 
-    public boolean isPayDate(Date date) {
-        // TODO
-        return true;
+    public boolean isPayDay(Date date) {
+        return schedule.isPayDay(date);
     }
 
     public void payday(Paycheck payCheck) {

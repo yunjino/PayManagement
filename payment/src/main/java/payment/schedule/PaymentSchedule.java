@@ -1,4 +1,7 @@
 package payment.schedule;
 
-public abstract class PaymentSchedule {
+import java.util.Date;
+
+public interface PaymentSchedule {
+    boolean isPayDay(Date date);
 }
