@@ -24,6 +24,7 @@ import payment.serviceCharge.ServiceChargeTransaction;
 import payment.timeCard.TimeCardTransaction;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class PaymentDatabaseTest {
 
@@ -372,5 +373,130 @@ public class PaymentDatabaseTest {
 
         Paycheck payCheck = paydayTransaction.getPayCheck(empId);
         Assertions.assertNull(payCheck);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeNoTimeCards() {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9); // 금요일
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payCalendar.getTime());
+        paydayTransaction.execute();
+
+        ValidateHourlyPaycheck(paydayTransaction, empId, payCalendar.getTime(), 0.0);
+    }
+
+    @Test
+    public void ValidateHourlyPaycheck(PaydayTransaction paydayTransaction, int empId, Date payDate, double pay) {
+        Paycheck payCheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertEquals(payDate, payCheck.getPayDate());
+        Assertions.assertEquals(pay, payCheck.getCrossPay(), .001);
+        Assertions.assertEquals("Hold", payCheck.getField().get("Disposition"));
+        Assertions.assertEquals(0.0, payCheck.getDeductions(), .001);
+        Assertions.assertEquals(1000.00, payCheck.getNetPay(), .001);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeOneTimeCard() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9); // 금요일
+        Date payDate = payCalendar.getTime();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        timeCardTransaction.execute();
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        ValidateHourlyPaycheck(paydayTransaction, empId, payDate, 30.5);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeOvertimeOneTimeCard() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9); // 금요일
+        Date payDate = payCalendar.getTime();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 9.0);
+        timeCardTransaction.execute();
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        ValidateHourlyPaycheck(paydayTransaction, empId, payDate, (8 + 1.5) * 15.25);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeOnWrongDate() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 8); // 목요일
+        Date payDate = payCalendar.getTime();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 9.0);
+        timeCardTransaction.execute();
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        Paycheck paycheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertNull(paycheck);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9); // 금요일
+        Date payDate = payCalendar.getTime();
+        TimeCardTransaction timeCardTransaction1 = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        timeCardTransaction1.execute();
+
+        payCalendar.set(2001, 11, 8); // 목요일
+        Date yesterdayPayDate = payCalendar.getTime();
+        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, yesterdayPayDate.getTime(), 5.0);
+        timeCardTransaction2.execute();
+
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        ValidateHourlyPaycheck(paydayTransaction, empId, payDate, 7 * 15.25);
+    }
+
+    @Test
+    public void TestPaySingleHourlyEmployeeWithTimeCardsSpanningTwoPayPeriods() throws Exception {
+        int empId = 2;
+        AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
+        addHourlyEmployee.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9); // 금요일
+        Date payDate = payCalendar.getTime();
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        timeCardTransaction.execute();
+
+        payCalendar.set(2001, 11, 2);
+        Date dateInPreviousPayPeriod = payCalendar.getTime();
+        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, dateInPreviousPayPeriod.getTime(), 5.0);
+        timeCardTransaction2.execute();
+
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        ValidateHourlyPaycheck(paydayTransaction, empId, payDate, 2 * 15.25);
     }
 }

@@ -1,10 +1,11 @@
 package payment.classification;
 
+import payment.entity.Paycheck;
 import payment.entity.SalesReceipt;
 
 import java.util.Collection;
 
-public class CommissionedClassification extends PaymentClassification {
+public class CommissionedClassification implements PaymentClassification {
     private final double salary;
     private final double commissionRate;
     private Collection<SalesReceipt> salesReceipts;
@@ -30,4 +31,8 @@ public class CommissionedClassification extends PaymentClassification {
         return SalesReceipt.builder().build();
     }
 
+    @Override
+    public double calculatePay(Paycheck pc) {
+        return 0;
+    }
 }
