@@ -499,4 +499,106 @@ public class PaymentDatabaseTest {
 
         ValidateHourlyPaycheck(paydayTransaction, empId, payDate, 2 * 15.25);
     }
+
+    @Test
+    public void TestSalariedUnionMemberDues() {
+        int empId = 1;
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        addSalariedEmployee.execute();
+
+        int memberId = 7734;
+        ChangeMemberTransaction changeMemberTransaction = new ChangeMemberTransaction(empId, memberId, 9.42);
+        changeMemberTransaction.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 30);
+        Date payDate = payCalendar.getTime();
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        double consumerValue = 2.0;
+        ValidatePayCheck(paydayTransaction, empId, payDate, 1000.0 - consumerValue);
+    }
+
+    public void ValidatePayCheck(PaydayTransaction paydayTransaction, int empId, Date payDate, double pay) {
+        Paycheck payCheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertEquals(payDate, payCheck.getPayDate());
+        Assertions.assertEquals(pay, payCheck.getCrossPay(), .001);
+        Assertions.assertEquals("Hold", payCheck.getField().get("Disposition"));
+        Assertions.assertEquals(0.0, payCheck.getDeductions(), .001);
+        Assertions.assertEquals(1000.00, payCheck.getNetPay(), .001);
+    }
+
+    @Test
+    public void testPayHourlyUnionMemberServiceCharge() throws Exception {
+        int empId = 1;
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        addSalariedEmployee.execute();
+
+        int memberId = 7734;
+        ChangeMemberTransaction changeMemberTransaction = new ChangeMemberTransaction(empId, memberId, 9.42);
+        changeMemberTransaction.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 9);
+        Date payDate = payCalendar.getTime();
+
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate.getTime(), 19.42);
+        serviceChargeTransaction.execute();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 8.0);
+        timeCardTransaction.execute();
+
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        Paycheck paycheck = paydayTransaction.getPayCheck(empId);
+        Assertions.assertEquals(payDate, paycheck.getPayPeriodEndDate());
+        Assertions.assertEquals(8 * 15.24, paycheck.getCrossPay(), .001);
+        Assertions.assertEquals("Hold", paycheck.getField().get("Disposition"));
+        Assertions.assertEquals(9.42 + 19.42, paycheck.getDeductions(), .001);
+        Assertions.assertEquals((8 * 15.24) - (9.42 + 19.42), paycheck.getNetPay(), .001);
+    }
+
+    @Test
+    public void TestServiceChargesSpanningMultiplePayPeriods() throws Exception {
+        int empId = 1;
+        AddSalariedEmployee addSalariedEmployee = new AddSalariedEmployee(empId, "Bob", "Home", 1000.00);
+        addSalariedEmployee.execute();
+
+        int memberId = 7734;
+        ChangeMemberTransaction changeMemberTransaction = new ChangeMemberTransaction(empId, memberId, 9.42);
+        changeMemberTransaction.execute();
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 2);
+        Date earlyDate = payCalendar.getTime();
+        payCalendar.set(2001, 11, 9);
+        Date payDate = payCalendar.getTime();
+        payCalendar.set(2001, 11, 16);
+        Date lateDate = payCalendar.getTime();
+
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate.getTime(), 19.42);
+        serviceChargeTransaction.execute();
+
+        ServiceChargeTransaction serviceEarlyChargeTransaction = new ServiceChargeTransaction(memberId, earlyDate.getTime(), 100.00);
+        serviceEarlyChargeTransaction.execute();
+
+        ServiceChargeTransaction serviceLateChargeTransaction = new ServiceChargeTransaction(memberId, lateDate.getTime(), 200.00);
+        serviceLateChargeTransaction.execute();
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 8.0);
+        timeCardTransaction.execute();
+
+        PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
+        paydayTransaction.execute();
+
+        Paycheck paycheck  = paydayTransaction.getPayCheck(empId);
+        Assertions.assertEquals(payDate, paycheck.getPayPeriodEndDate());
+        Assertions.assertEquals(8 * 15.24, paycheck.getCrossPay(), .001);
+        Assertions.assertEquals("Hold", paycheck.getField().get("Disposition"));
+        Assertions.assertEquals(9.42 + 19.42, paycheck.getDeductions(), .001);
+        Assertions.assertEquals((8 * 15.24) - (9.42 + 19.42), paycheck.getNetPay(), .001);
+
+    }
 }
