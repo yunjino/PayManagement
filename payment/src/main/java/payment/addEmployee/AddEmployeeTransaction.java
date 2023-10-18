@@ -2,6 +2,8 @@ package payment.addEmployee;
 
 import payment.PaymentDatabase;
 import payment.Transaction;
+import payment.affiliation.Affiliation;
+import payment.affiliation.NoAffiliation;
 import payment.classification.PaymentClassification;
 import payment.entity.Employee;
 import payment.method.HoldMethod;
@@ -24,7 +26,17 @@ public abstract class AddEmployeeTransaction implements Transaction {
         PaymentClassification paymentClassification = getClassification();
         PaymentSchedule paymentSchedule = getSchedule();
         PaymentMethod paymentMethod = new HoldMethod();
-        Employee employee = new Employee(empId, name, address, paymentClassification, paymentSchedule, paymentMethod);
+        Affiliation affiliation = new NoAffiliation();
+
+        Employee employee = Employee.builder()
+                .empId(empId)
+                .name(name)
+                .address(address)
+                .classification(paymentClassification)
+                .schedule(paymentSchedule)
+                .method(paymentMethod)
+                .affiliation(affiliation)
+                .build();
         PaymentDatabase.addEmployee(empId, employee);
     }
 
