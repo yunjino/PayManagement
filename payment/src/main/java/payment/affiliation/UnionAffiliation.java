@@ -9,6 +9,7 @@ import payment.entity.ServiceCharge;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ import java.util.Date;
 public class UnionAffiliation implements Affiliation {
     private double dues;
     private Integer memberId;
-    private Collection<ServiceCharge> serviceCharges;
+    private Map<Long, ServiceCharge> serviceCharges;
 
     public UnionAffiliation(double dues) {
         this.dues = dues;
@@ -29,11 +30,11 @@ public class UnionAffiliation implements Affiliation {
 
     @Override
     public void addServiceChange(ServiceCharge serviceCharge) {
-        serviceCharges.add(serviceCharge);
+        serviceCharges.put(serviceCharge.getDate(), serviceCharge);
     }
 
     public ServiceCharge getServiceCharge(long date) {
-        return ServiceCharge.builder().build();
+        return serviceCharges.get(date);
     }
 
     private int numberOfFridaysInPayPeriod(Date startDate, Date endDate) {
