@@ -28,7 +28,6 @@ public class UnionAffiliation implements Affiliation {
         this.memberId = memberId;
     }
 
-    @Override
     public void addServiceChange(ServiceCharge serviceCharge) {
         serviceCharges.put(serviceCharge.getDate(), serviceCharge);
     }

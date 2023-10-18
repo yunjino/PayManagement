@@ -1,5 +1,6 @@
 package payment.classification;
 
+import lombok.Getter;
 import payment.entity.Paycheck;
 import payment.entity.SalesReceipt;
 
@@ -8,7 +9,9 @@ import java.util.Date;
 import java.util.Map;
 
 public class CommissionedClassification implements PaymentClassification {
+    @Getter
     private final double salary;
+    @Getter
     private final double commissionRate;
     private Map<Date, SalesReceipt> salesReceiptMap;
 
@@ -19,14 +22,6 @@ public class CommissionedClassification implements PaymentClassification {
 
     public void addSalesReceipt(SalesReceipt salesReceipt) {
         salesReceiptMap.put(salesReceipt.getDate(), salesReceipt);
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public double getCommissionRate() {
-        return commissionRate;
     }
 
     public SalesReceipt getSalesReceipt(Date date) {
