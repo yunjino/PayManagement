@@ -6,14 +6,15 @@ import payment.entity.Employee;
 import payment.entity.ServiceCharge;
 import payment.affiliation.UnionAffiliation;
 
+import java.util.Date;
 import java.util.Optional;
 
 public class ServiceChargeTransaction implements Transaction {
     private final Integer memberId;
-    private final long date;
+    private final Date date;
     private final double charge;
 
-    public ServiceChargeTransaction(Integer memberId, long date, double charge) {
+    public ServiceChargeTransaction(Integer memberId, Date date, double charge) {
         this.memberId = memberId;
         this.date = date;
         this.charge = charge;

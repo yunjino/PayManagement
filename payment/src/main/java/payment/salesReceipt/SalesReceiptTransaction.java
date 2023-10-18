@@ -7,12 +7,14 @@ import payment.classification.PaymentClassification;
 import payment.entity.Employee;
 import payment.entity.SalesReceipt;
 
+import java.util.Date;
+
 public class SalesReceiptTransaction implements Transaction {
-    private final Long date;
+    private final Date date;
     private final double amount;
     private final Integer empId;
 
-    public SalesReceiptTransaction(long date, double amount, Integer empId) {
+    public SalesReceiptTransaction(Date date, double amount, Integer empId) {
         this.date = date;
         this.amount = amount;
         this.empId = empId;

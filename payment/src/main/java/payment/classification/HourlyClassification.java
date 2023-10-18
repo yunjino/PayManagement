@@ -4,28 +4,24 @@ import lombok.Getter;
 import payment.entity.Paycheck;
 import payment.entity.TimeCard;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
 public class HourlyClassification implements PaymentClassification {
     private final double hourlyRate;
-    private Collection<TimeCard> timeCards = new ArrayList<>();
+    private Map<Date, TimeCard> timeCardMap;
 
     public HourlyClassification(double hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
 
     public void addTimeCard(TimeCard timeCard) {
-        timeCards.add(timeCard);
+        timeCardMap.put(timeCard.getDate(), timeCard);
     }
 
-    public TimeCard getTimeCard(long date) {
-        return timeCards.stream()
-                .filter(timeCard -> timeCard.getDate() == date)
-                .findAny()
-                .get();
+    public TimeCard getTimeCard(Date date) {
+        return timeCardMap.get(date);
     }
 
     private double calculatePayForTimeCard(TimeCard timeCard) {
@@ -37,13 +33,16 @@ public class HourlyClassification implements PaymentClassification {
 
     @Override
     public double calculatePay(Paycheck pc) {
-        double totalPay = 0;
+        AtomicReference<Double> totalPay = new AtomicReference<>((double) 0);
         Date payPeriod = pc.getPayDate();
-        for (TimeCard timeCard : timeCards) {
-            if (isInPayPeriod(payPeriod, pc)) {
-                totalPay += calculatePayForTimeCard(timeCard);
+
+        timeCardMap.keySet().forEach(date -> {
+            TimeCard timeCard = timeCardMap.get(date);
+            if(isInPayPeriod(payPeriod, pc)) {
+                totalPay.updateAndGet(v -> v + calculatePayForTimeCard(timeCard));
             }
-        }
-        return totalPay;
+        });
+
+        return totalPay.get();
     }
 }

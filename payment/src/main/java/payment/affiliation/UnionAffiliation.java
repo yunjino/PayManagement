@@ -17,7 +17,7 @@ import java.util.Map;
 public class UnionAffiliation implements Affiliation {
     private double dues;
     private Integer memberId;
-    private Map<Long, ServiceCharge> serviceCharges;
+    private Map<Date, ServiceCharge> serviceCharges;
 
     public UnionAffiliation(double dues) {
         this.dues = dues;
@@ -33,7 +33,7 @@ public class UnionAffiliation implements Affiliation {
         serviceCharges.put(serviceCharge.getDate(), serviceCharge);
     }
 
-    public ServiceCharge getServiceCharge(long date) {
+    public ServiceCharge getServiceCharge(Date date) {
         return serviceCharges.get(date);
     }
 

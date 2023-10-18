@@ -7,12 +7,14 @@ import payment.classification.PaymentClassification;
 import payment.entity.Employee;
 import payment.entity.TimeCard;
 
+import java.util.Date;
+
 public class TimeCardTransaction implements Transaction {
     private final Integer empId;
-    private final long date;
+    private final Date date;
     private final double hours;
 
-    public TimeCardTransaction(Integer empId, long date, double hours) {
+    public TimeCardTransaction(Integer empId, Date date, double hours) {
         this.empId = empId;
         this.date = date;
         this.hours = hours;

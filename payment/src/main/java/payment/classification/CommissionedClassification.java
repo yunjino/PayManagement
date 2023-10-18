@@ -4,11 +4,13 @@ import payment.entity.Paycheck;
 import payment.entity.SalesReceipt;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 
 public class CommissionedClassification implements PaymentClassification {
     private final double salary;
     private final double commissionRate;
-    private Collection<SalesReceipt> salesReceipts;
+    private Map<Date, SalesReceipt> salesReceiptMap;
 
     public CommissionedClassification(double salary, double commissionRate) {
         this.salary = salary;
@@ -16,7 +18,7 @@ public class CommissionedClassification implements PaymentClassification {
     }
 
     public void addSalesReceipt(SalesReceipt salesReceipt) {
-        salesReceipts.add(salesReceipt);
+        salesReceiptMap.put(salesReceipt.getDate(), salesReceipt);
     }
 
     public double getSalary() {
@@ -27,8 +29,8 @@ public class CommissionedClassification implements PaymentClassification {
         return commissionRate;
     }
 
-    public SalesReceipt getSalesReceipt(long date) {
-        return SalesReceipt.builder().build();
+    public SalesReceipt getSalesReceipt(Date date) {
+        return salesReceiptMap.get(date);
     }
 
     @Override

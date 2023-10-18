@@ -115,7 +115,10 @@ public class PaymentDatabaseTest {
         AddHourlyEmployee addHourlyEmployee = new AddHourlyEmployee(empId, "Bill", "Home", 15.25);
         addHourlyEmployee.execute();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, 20011031, 8.0);
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 10, 31);
+
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payCalendar.getTime(), 8.0);
         timeCardTransaction.execute();
 
         Employee employee = PaymentDatabase.getEmployee(empId);
@@ -123,7 +126,7 @@ public class PaymentDatabaseTest {
         PaymentClassification paymentClassification = employee.getClassification();
         HourlyClassification hourlyClassification = (HourlyClassification) paymentClassification;
 
-        TimeCard timeCard = hourlyClassification.getTimeCard(20011031);
+        TimeCard timeCard = hourlyClassification.getTimeCard(payCalendar.getTime());
         Assertions.assertEquals(8.0, timeCard.getHours());
     }
 
@@ -133,14 +136,17 @@ public class PaymentDatabaseTest {
         AddCommissionedEmployee addCommissionedEmployee = new AddCommissionedEmployee(empId, "Jack", "dd", 1000.00, 500.00);
         addCommissionedEmployee.execute();
 
-        SalesReceiptTransaction salesReceiptTransaction = new SalesReceiptTransaction(20011031, 30000.0, empId);
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 10, 31);
+
+        SalesReceiptTransaction salesReceiptTransaction = new SalesReceiptTransaction(payCalendar.getTime(), 30000.0, empId);
         salesReceiptTransaction.execute();
 
         Employee employee = PaymentDatabase.getEmployee(empId);
         PaymentClassification paymentClassification = employee.getClassification();
         CommissionedClassification commissionedClassification = (CommissionedClassification) paymentClassification;
 
-        SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(20011031);
+        SalesReceipt salesReceipt = commissionedClassification.getSalesReceipt(payCalendar.getTime());
         Assertions.assertEquals(30000.0, salesReceipt.getAmount());
     }
 
@@ -156,10 +162,14 @@ public class PaymentDatabaseTest {
 
         int memberId = 86;
         PaymentDatabase.addUnionMember(memberId, employee);
-        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, 20011101, 12095);
+
+        Calendar payCalendar = Calendar.getInstance();
+        payCalendar.set(2001, 11, 01);
+
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payCalendar.getTime(), 12095);
         serviceChargeTransaction.execute();
 
-        ServiceCharge serviceCharge = unionAffiliation.getServiceCharge(20011101);
+        ServiceCharge serviceCharge = unionAffiliation.getServiceCharge(payCalendar.getTime());
         Assertions.assertEquals(12.95, serviceCharge.getAmount(), .001);
     }
 
@@ -409,7 +419,7 @@ public class PaymentDatabaseTest {
         payCalendar.set(2001, 11, 9); // 금요일
         Date payDate = payCalendar.getTime();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 2.0);
         timeCardTransaction.execute();
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
         paydayTransaction.execute();
@@ -427,7 +437,7 @@ public class PaymentDatabaseTest {
         payCalendar.set(2001, 11, 9); // 금요일
         Date payDate = payCalendar.getTime();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 9.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 9.0);
         timeCardTransaction.execute();
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
         paydayTransaction.execute();
@@ -445,7 +455,7 @@ public class PaymentDatabaseTest {
         payCalendar.set(2001, 11, 8); // 목요일
         Date payDate = payCalendar.getTime();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 9.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 9.0);
         timeCardTransaction.execute();
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
         paydayTransaction.execute();
@@ -463,12 +473,12 @@ public class PaymentDatabaseTest {
         Calendar payCalendar = Calendar.getInstance();
         payCalendar.set(2001, 11, 9); // 금요일
         Date payDate = payCalendar.getTime();
-        TimeCardTransaction timeCardTransaction1 = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        TimeCardTransaction timeCardTransaction1 = new TimeCardTransaction(empId, payDate, 2.0);
         timeCardTransaction1.execute();
 
         payCalendar.set(2001, 11, 8); // 목요일
         Date yesterdayPayDate = payCalendar.getTime();
-        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, yesterdayPayDate.getTime(), 5.0);
+        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, yesterdayPayDate, 5.0);
         timeCardTransaction2.execute();
 
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
@@ -486,12 +496,12 @@ public class PaymentDatabaseTest {
         Calendar payCalendar = Calendar.getInstance();
         payCalendar.set(2001, 11, 9); // 금요일
         Date payDate = payCalendar.getTime();
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 2.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 2.0);
         timeCardTransaction.execute();
 
         payCalendar.set(2001, 11, 2);
         Date dateInPreviousPayPeriod = payCalendar.getTime();
-        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, dateInPreviousPayPeriod.getTime(), 5.0);
+        TimeCardTransaction timeCardTransaction2 = new TimeCardTransaction(empId, dateInPreviousPayPeriod, 5.0);
         timeCardTransaction2.execute();
 
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
@@ -543,10 +553,10 @@ public class PaymentDatabaseTest {
         payCalendar.set(2001, 11, 9);
         Date payDate = payCalendar.getTime();
 
-        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate.getTime(), 19.42);
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate, 19.42);
         serviceChargeTransaction.execute();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 8.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 8.0);
         timeCardTransaction.execute();
 
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
@@ -578,16 +588,16 @@ public class PaymentDatabaseTest {
         payCalendar.set(2001, 11, 16);
         Date lateDate = payCalendar.getTime();
 
-        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate.getTime(), 19.42);
+        ServiceChargeTransaction serviceChargeTransaction = new ServiceChargeTransaction(memberId, payDate, 19.42);
         serviceChargeTransaction.execute();
 
-        ServiceChargeTransaction serviceEarlyChargeTransaction = new ServiceChargeTransaction(memberId, earlyDate.getTime(), 100.00);
+        ServiceChargeTransaction serviceEarlyChargeTransaction = new ServiceChargeTransaction(memberId, earlyDate, 100.00);
         serviceEarlyChargeTransaction.execute();
 
-        ServiceChargeTransaction serviceLateChargeTransaction = new ServiceChargeTransaction(memberId, lateDate.getTime(), 200.00);
+        ServiceChargeTransaction serviceLateChargeTransaction = new ServiceChargeTransaction(memberId, lateDate, 200.00);
         serviceLateChargeTransaction.execute();
 
-        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate.getTime(), 8.0);
+        TimeCardTransaction timeCardTransaction = new TimeCardTransaction(empId, payDate, 8.0);
         timeCardTransaction.execute();
 
         PaydayTransaction paydayTransaction = new PaydayTransaction(payDate);
